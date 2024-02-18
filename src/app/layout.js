@@ -1,8 +1,15 @@
 import Navbar from "@/components/Navbar";
-import { Inter } from "next/font/google";
+import {
+  Fira_Sans,
+  Noto_Sans,
+  Rhodium_Libre,
+  Roboto_Mono,
+  Roboto_Serif,
+} from "next/font/google";
 import "./globals.css";
+import { UserContextProvider } from "./context/UserContext";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Fira_Sans({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata = {
   title: "Create Next App",
@@ -13,8 +20,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        {children}
+        <UserContextProvider>
+          <Navbar />
+          {children}
+        </UserContextProvider>
       </body>
     </html>
   );

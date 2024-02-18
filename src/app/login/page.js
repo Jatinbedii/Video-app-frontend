@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 function LoginPage() {
   const router = useRouter();
@@ -57,7 +58,9 @@ function LoginPage() {
           />
         </div>
         {error ? <div>{error}</div> : <div></div>}
-        <button type="submit">Login</button>
+        <Button className="bg-slate-600" type="submit">
+          Login
+        </Button>
       </form>
     </div>
   );
