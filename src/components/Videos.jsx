@@ -21,9 +21,9 @@ function Videos() {
   }, []);
   return (
     <>
-      <div className="w-full">
+      <div className="bg-[#333333]">
         {videos ? (
-          <div className="w-full  grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          <div className="  grid gap-3 md:grid-cols-2 lg:grid-cols-3 w-fit mx-auto lg:gap-10">
             {videos.map((data) => {
               return (
                 <div key={data._id}>

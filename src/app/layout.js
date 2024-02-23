@@ -1,11 +1,5 @@
 import Navbar from "@/components/Navbar";
-import {
-  Fira_Sans,
-  Noto_Sans,
-  Rhodium_Libre,
-  Roboto_Mono,
-  Roboto_Serif,
-} from "next/font/google";
+import { Fira_Sans } from "next/font/google";
 import "./globals.css";
 import { UserContextProvider } from "./context/UserContext";
 
@@ -21,7 +15,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <UserContextProvider>
-          <Navbar />
+          <div className="fixed w-full">
+            <Navbar />
+          </div>
+          <div className="w-full h-[45px] bg-[#333333]"></div>
           {children}
         </UserContextProvider>
       </body>

@@ -8,10 +8,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import Image from "next/image";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
+import Link from "next/link";
 function Navbar() {
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -67,55 +69,117 @@ function Navbar() {
   }, []);
   return (
     <div className="w-full bg-[#333333]">
-      <div className="flex justify-around">
-        <div>Video</div>
+      <div className="flex justify-between pr-1 pl-1 md:pr-0 md:pl-0 md:justify-around pt-2">
+        <div className="text-[#99cc33] mt-1 font-bold text-3xl flex flex-row gap-1 hover:text-[#7ca529]">
+          <Link href={"/"}>MP4</Link>
+          <Image
+            src="/logo.png"
+            width={30}
+            className="max-h-[32px]"
+            height={30}
+            alt="logo"
+          />
+        </div>
+
         <div>
           {user ? (
             <div>
               <Sheet>
-                <SheetTrigger>{user.username}</SheetTrigger>
-                <SheetContent>
+                <SheetTrigger>
+                  <img
+                    src={user.profile}
+                    width={"40px"}
+                    className="rounded-full"
+                  />
+                </SheetTrigger>
+                <SheetContent className="bg-[#333333]">
                   <SheetHeader>
-                    <SheetTitle>{user.username}</SheetTitle>
+                    <SheetTitle className="w-full text-[#99cc33] text-center">
+                      {user.username}
+                    </SheetTitle>
                     <SheetDescription></SheetDescription>
                   </SheetHeader>
-                  <Button onClick={LogoutHandler}>Logout</Button>
+                  <div className="w-full">
+                    <img
+                      src={user.profile}
+                      className="max-w-[100px] rounded-full mx-auto"
+                    />
+                    <div className="w-full text-center pt-2 text-gray-400">
+                      {user.email}
+                    </div>
+                  </div>
+                  <Button onClick={LogoutHandler} className="bg-[#7CA529]">
+                    Logout
+                  </Button>
                 </SheetContent>
               </Sheet>
             </div>
           ) : (
             <div>
               <Sheet>
-                <SheetTrigger>Login</SheetTrigger>
-                <SheetContent>
+                <SheetTrigger>
+                  <span className="text-white font-semibold text-md hover:text-[#99cc33]">
+                    LOGIN
+                  </span>
+                </SheetTrigger>
+                <SheetContent className={"bg-[#333333]"}>
                   <SheetHeader>
-                    <SheetTitle>Login</SheetTitle>
+                    <SheetTitle>
+                      <span className="text-[#99cc33]">Login</span>
+                    </SheetTitle>
                     <SheetDescription></SheetDescription>
                   </SheetHeader>
                   <form onSubmit={handleSubmit}>
                     <div>
-                      <label htmlFor="username">Username:</label>
+                      <label
+                        htmlFor="username"
+                        className="text-white font-semibold"
+                      >
+                        Username
+                      </label>
                       <input
                         type="text"
                         id="username"
                         value={username}
+                        className="rounded-md ml-1"
                         onChange={(e) => setUsername(e.target.value)}
                       />
                     </div>
 
-                    <div>
-                      <label htmlFor="password">Password:</label>
+                    <div className="pt-2">
+                      <label
+                        htmlFor="password"
+                        className="text-white font-semibold"
+                      >
+                        Password
+                      </label>
                       <input
+                        className="rounded-lg ml-2"
                         type="password"
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
-                    {error ? <div>{error}</div> : <div></div>}
-                    <Button className="bg-slate-600" type="submit">
-                      Login
-                    </Button>
+                    {error ? (
+                      <div className="w-full flex justify-center mt-2">
+                        <span className="bg-red-600 text-white pr-2 pl-2 rounded">
+                          {error}
+                        </span>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
+                    <div className="w-full  flex justify-center mt-3">
+                      <Button className="bg-[#7ca529] mx-auto" type="submit">
+                        Login
+                      </Button>
+                    </div>
+
+                    <div className="mt-3 text-[#99cc33]">
+                      <span className="text-white">New User?</span>
+                      <a href={"/register"}> Create Account</a>
+                    </div>
                   </form>
                 </SheetContent>
               </Sheet>

@@ -8,7 +8,7 @@ function page() {
   const [error, setError] = useState();
   const [title, settitle] = useState("");
   const [description, setdescription] = useState("");
-  const [thumbnail, setthumbnail] = useState(null);
+
   useEffect(() => {
     if (localStorage.getItem("jwt")) {
     } else {
@@ -37,24 +37,13 @@ function page() {
     if (!videouploaded) {
       return setError("Video not Uploaded");
     }
-    let thumbnailresponse;
-    if (thumbnail != null) {
-      const thumbnaildata = new FormData();
-      thumbnaildata.append("file", thumbnail);
-      thumbnaildata.append("upload_preset", "videoapp");
 
-      thumbnailresponse = await axios.post(
-        "https://api.cloudinary.com/v1_1/dur15pcjs/image/upload",
-        thumbnaildata
-      );
-    }
     const res = await axios.post(
-      "http://localhost:3001/api/upload",
+      "http://localhost:3001/api/shorts/upload",
       {
         title: title,
         description: description,
         url: videouploaded.data.secure_url,
-        thumbnail: thumbnailresponse.data.secure_url,
       },
       {
         headers: {
@@ -82,11 +71,7 @@ function page() {
         value={description}
         onChange={(e) => setdescription(e.target.value)}
       />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => setthumbnail(e.target.files[0])}
-      />
+
       <input type="file" accept="video/*" onChange={VideoSetHanlder} />
       {error ? <div>{error}</div> : <div></div>}
       <button onClick={uploadhandler}>Upload</button>
