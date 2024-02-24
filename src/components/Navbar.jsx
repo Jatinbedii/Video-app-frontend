@@ -68,7 +68,7 @@ function Navbar() {
     }
   }, []);
   return (
-    <div className="w-full bg-[#333333]">
+    <div className="w-full bg-black">
       <div className="flex justify-between pr-1 pl-1 md:pr-0 md:pl-0 md:justify-around pt-2">
         <div className="text-[#99cc33] mt-1 font-bold text-3xl flex flex-row gap-1 hover:text-[#7ca529]">
           <Link href={"/"}>MP4</Link>

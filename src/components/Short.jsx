@@ -1,6 +1,7 @@
 "use client";
+
 import { BiSolidSend } from "react-icons/bi";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsEyeFill } from "react-icons/bs";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { useUserContext } from "@/app/context/UserContext";
@@ -8,13 +9,32 @@ import axios from "axios";
 import { FaRegComment } from "react-icons/fa";
 import { Dialog, DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
+import { InView } from "react-intersection-observer";
 function Short(props) {
+  const videoref = useRef(null);
   const { user, setuser } = useUserContext();
   const [isLiked, SetIsLiked] = useState(false);
   const [NoOfLikes, setNoOfLikes] = useState();
   const [comments, setComments] = useState();
-
+  const [playing, setplaying] = useState(false);
+  async function increaseView() {
+    try {
+      await axios.post("http://localhost:3001/api/shorts/increaseview", {
+        short: props.short._id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  function videoClickHandler() {
+    if (playing == false) {
+      setplaying(true);
+      videoref.current.play();
+    } else {
+      setplaying(false);
+      videoref.current.pause();
+    }
+  }
   const [comment, setcomment] = useState("");
   async function SubmitComment(e) {
     e.preventDefault();
@@ -87,10 +107,13 @@ function Short(props) {
       style={{ height: "calc(100vh - 93px)" }}
     >
       <video
+        onClick={videoClickHandler}
+        ref={videoref}
         className=" w-full h-full object-cover"
         src={props.short.url}
         style={{ objectFit: "contain" }}
       ></video>
+
       <div className="absolute bottom-3 left-1 text-white">
         <div>
           {props.users.map((eachuser) => {
@@ -111,8 +134,21 @@ function Short(props) {
             }
           })}
         </div>
-
-        <div className="font-semibold">{props.short.title}</div>
+        <InView
+          triggerOnce={false}
+          onChange={(inView, entry) => {
+            if (inView) {
+              // videoref.current.play();
+              // setplaying(true);
+              // increaseView();
+            } else {
+              //   videoref.current.pause();
+              //  setplaying(false);
+            }
+          }}
+        >
+          <div className="font-semibold">{props.short.title}</div>
+        </InView>
         <div>{props.short.description}</div>
 
         <div className=" flex flex-row gap-2">
