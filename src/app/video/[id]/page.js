@@ -1,24 +1,40 @@
 "use client";
+import Link from "next/link";
+
+import ClipLoader from "react-spinners/ClipLoader";
 import { FaShareSquare } from "react-icons/fa";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { AiOutlineLike } from "react-icons/ai";
 import { useUserContext } from "@/app/context/UserContext";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiFillLike } from "react-icons/ai";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
+import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
+import changedate from "@/utils/ConvertDate";
 function page({ params }) {
-  const router = useRouter();
+  const { toast } = useToast();
   const { user, setuser } = useUserContext();
   const [video, setvideo] = useState();
   const [mycomment, setmycomment] = useState("");
   const [isLiked, setisLiked] = useState(false);
   const [usersData, setusersData] = useState();
-  async function LikeHandler() {
+  async function shareHandler() {
+    navigator.clipboard.writeText(window.location.href).then((res) => {
+      return toast({
+        title: "Copied to ClipBoard",
+        description: "Video Link copied to ClpBoard",
+      });
+    });
+  }
+  async function LikeHandler(e) {
+    e.preventDefault();
     if (!localStorage.getItem("jwt")) {
-      return router.push("/login");
+      return toast({
+        title: "Login in",
+        description: "Kindly Log into your Account to Like this video",
+      });
     }
 
     const res = await axios.post(
@@ -47,12 +63,21 @@ function page({ params }) {
       }));
       setisLiked(false);
     } else {
-      console.log(res);
+      return toast({
+        title: "Login in",
+        description: "Kindly Log into your Account to Like this video",
+      });
     }
   }
   async function commentHandler() {
+    if (!mycomment) {
+      return;
+    }
     if (!localStorage.getItem("jwt")) {
-      return router.push("/login");
+      return toast({
+        title: "Login Required",
+        description: "Log into your Account to Comment here",
+      });
     }
     const res = await axios.post(
       "http://localhost:3001/api/comment",
@@ -65,6 +90,10 @@ function page({ params }) {
       }
     );
     if (res.data.error) {
+      return toast({
+        title: "Login Required",
+        description: "Log into your Account to Comment here",
+      });
     } else {
       setmycomment("");
       setvideo((prevVideo) => ({
@@ -114,11 +143,13 @@ function page({ params }) {
               }
             </video>
           </div>
-          <div className="text-white pl-1 font-semibold text-lg md:text-2xl">
+          <Toaster />
+          <div className="text-white pl-1 font-semibold text-lg md:text-2xl pt-4">
             {video.title}
           </div>
           <div className="pl-1 text-gray-300">{video.views} views</div>
-          <div className="flex justify-around pt-2 pb-2">
+
+          <div className="flex justify-around pt-6 pb-2">
             <div>
               <button onClick={LikeHandler} className="text-white text-3xl">
                 {isLiked ? (
@@ -126,14 +157,17 @@ function page({ params }) {
                     <AiFillLike />
                   </div>
                 ) : (
-                  <div>
+                  <div className="hover:text-[#99cc33]">
                     <AiOutlineLike />
                   </div>
                 )}
               </button>
               <div className="text-gray-300 pl-3"> {video.likes?.length}</div>
             </div>
-            <div className="text-white text-2xl">
+            <div
+              className="text-white text-2xl hover:text-[#99cc33] "
+              onClick={shareHandler}
+            >
               <FaShareSquare />
               <div className="text-white text-base">Share</div>
             </div>
@@ -145,39 +179,63 @@ function page({ params }) {
                 {usersData.map((data) => {
                   if (data._id == video.createdBy) {
                     return (
-                      <div className="flex flex-row gap-2 pl-1">
-                        <img
-                          className="rounded-full"
-                          src={data.profile}
-                          height={"40px"}
-                          width={"40px"}
-                        />
-                        <div className="text-white text-base font-medium pt-2">
-                          {" "}
-                          {data.username}
-                        </div>{" "}
-                        <div className="pt-2.5 text-gray-400 text-sm">
-                          (creator)
-                        </div>
+                      <div>
+                        <Link
+                          className="flex flex-row gap-2 pl-1 "
+                          href={`/user/${video.createdBy}`}
+                        >
+                          <img
+                            className="rounded-full"
+                            src={data.profile}
+                            height={"40px"}
+                            width={"40px"}
+                          />
+                          <div className="text-white text-base font-medium pt-2 hover:text-[#99cc33]">
+                            {" "}
+                            {data.username}
+                          </div>{" "}
+                          <div className="pt-2.5 text-gray-400 text-sm">
+                            (creator)
+                          </div>
+                        </Link>
                       </div>
                     );
                   }
                 })}
               </div>
             ) : (
-              <div>Loading</div>
+              <div>
+                {" "}
+                <ClipLoader
+                  color={"#ffffff"}
+                  loading={true}
+                  className="mt-10"
+                  size={50}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </div>
             )}
           </div>
-          <div className="pl-1 text-gray-300 pt-2 font-medium mt-2">
+
+          <div className="pl-1 pb-2 text-gray-300 pt-2 font-medium mt-2">
             {" "}
             Description
           </div>
+
           <div className="text-white pl-1 text-sm">{video.description}</div>
+          {video.createdAt ? (
+            <div className=" pl-1 text-gray-300 text-sm">
+              Uploaded on {changedate(video.createdAt)}
+            </div>
+          ) : (
+            <div></div>
+          )}
           <div className="pl-1 text-gray-300 pt-2 font-medium mt-2 w-full ">
-            <div className="mx-auto w-fit"> Comments</div>
+            <div className="md:mx-auto w-fit"> Comments</div>
           </div>
           <div className="w-full">
-            <ScrollArea className="h-[400px] max-w-[400px] rounded-md border overflow-auto mx-auto">
+            <ScrollArea className="min-h-[10px] max-h-[400px] max-w-[400px] rounded-md border overflow-auto mx-auto">
               {video && usersData ? (
                 <div>
                   {video.comments?.map((comment) => {
@@ -212,24 +270,34 @@ function page({ params }) {
               )}
             </ScrollArea>
           </div>
-          <div className="w-fit mx-auto">
+          <div className="w-fit mx-auto flex flex-row mt-3 mb-3">
             <input
               value={mycomment}
-              className="rounded-lg pb-3"
+              className="rounded-lg pb-3 border-solid border-2 border-black"
               placeholder="Your comment"
               onChange={(e) => setmycomment(e.target.value)}
             />
-
-            <button
-              onClick={commentHandler}
-              className="bg-[#99cc33] mt-2 rounded-full ml-2"
-            >
-              <IoIosArrowDroprightCircle className="w-[30px] h-[30px] " />
-            </button>
+            <div className="pb-3">
+              <div
+                onClick={commentHandler}
+                className="bg-[#99cc33] mt-2 rounded-full ml-2"
+              >
+                <IoIosArrowDroprightCircle className="w-[30px] h-[30px] " />
+              </div>
+            </div>
           </div>
         </div>
       ) : (
-        <div>Loading</div>
+        <div className="w-full mt-10 text-center">
+          <ClipLoader
+            color={"#ffffff"}
+            loading={true}
+            className="mt-10"
+            size={50}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
       )}
     </div>
   );

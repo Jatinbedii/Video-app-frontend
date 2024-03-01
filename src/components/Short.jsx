@@ -1,5 +1,5 @@
 "use client";
-
+import { Toaster } from "@/components/ui/toaster";
 import { BiSolidSend } from "react-icons/bi";
 import React, { useEffect, useRef, useState } from "react";
 import { BsEyeFill } from "react-icons/bs";
@@ -10,7 +10,9 @@ import { FaRegComment } from "react-icons/fa";
 import { Dialog, DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { InView } from "react-intersection-observer";
+import { useToast } from "@/components/ui/use-toast";
 function Short(props) {
+  const { toast } = useToast();
   const videoref = useRef(null);
   const { user, setuser } = useUserContext();
   const [isLiked, SetIsLiked] = useState(false);
@@ -38,8 +40,14 @@ function Short(props) {
   const [comment, setcomment] = useState("");
   async function SubmitComment(e) {
     e.preventDefault();
+    if (!comment) {
+      return;
+    }
     if (!localStorage.getItem("jwt")) {
-      return router.push("/login");
+      return toast({
+        title: "Login Required",
+        description: "Login Required to comment on this short",
+      });
     }
     const res = await axios.post(
       "http://localhost:3001/api/shorts/comment",
@@ -60,12 +68,20 @@ function Short(props) {
         { user: res.data.user, comment: res.data.comment },
         ...prevcomments,
       ]);
+    } else {
+      return toast({
+        title: "Login Required",
+        description: "Login Required to comment on this short",
+      });
     }
   }
   async function Likehandler(e) {
     e.preventDefault();
     if (!localStorage.getItem("jwt")) {
-      return router.push("/login");
+      return toast({
+        title: "Login Required",
+        description: "Login Required to like this short",
+      });
     }
 
     const res = await axios.post(
@@ -88,6 +104,10 @@ function Short(props) {
       SetIsLiked(false);
       setNoOfLikes(NoOfLikes - 1);
     } else {
+      return toast({
+        title: "Login Required",
+        description: "Login Required to like this short",
+      });
     }
   }
   useEffect(() => {
@@ -106,6 +126,7 @@ function Short(props) {
       className="max-w-lg bg-black snap-start mx-auto relative"
       style={{ height: "calc(100vh - 93px)" }}
     >
+      <Toaster />
       <video
         onClick={videoClickHandler}
         ref={videoref}

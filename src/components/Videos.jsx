@@ -1,4 +1,5 @@
 "use client";
+import ClipLoader from "react-spinners/ClipLoader";
 import Video from "./Video";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -33,7 +34,16 @@ function Videos() {
             })}
           </div>
         ) : (
-          <div>Loading</div>
+          <div className="w-full text-center">
+            <ClipLoader
+              color={"#ffffff"}
+              loading={true}
+              className="mt-10"
+              size={50}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
         )}
       </div>
     </>
