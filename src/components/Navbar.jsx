@@ -9,11 +9,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
+import { MdLogout } from "react-icons/md";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { FaUserEdit } from "react-icons/fa";
 function Navbar() {
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -108,9 +110,23 @@ function Navbar() {
                       {user.email}
                     </div>
                   </div>
-                  <Button onClick={LogoutHandler} className="bg-[#7CA529]">
-                    Logout
-                  </Button>
+                  <div className="flex flex-col gap-2">
+                    <Button className="bg-red-600 w-fit mx-auto">
+                      <Link href={`/golive`}>Go Live !</Link>
+                    </Button>
+                    <Button className="bg-[#7ca529] w-fit mx-auto">
+                      <Link href={`/user/${user._id}`}>
+                        <FaUserEdit />
+                      </Link>
+                    </Button>
+
+                    <Button
+                      onClick={LogoutHandler}
+                      className="bg-red-800 text-white w-fit mx-auto"
+                    >
+                      <MdLogout />
+                    </Button>
+                  </div>
                 </SheetContent>
               </Sheet>
             </div>

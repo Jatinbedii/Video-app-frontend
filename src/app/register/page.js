@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function RegistrationPage() {
   const router = useRouter();
@@ -11,7 +11,23 @@ function RegistrationPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  useEffect(() => {
+    if (localStorage.getItem("jwt")) {
+      axios("http://localhost:3001/api/user", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      })
+        .then((res) => {
+          if (res.data.error) {
+          } else {
+            router.push("/");
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+    }
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
@@ -60,7 +76,7 @@ function RegistrationPage() {
               <input
                 type="text"
                 id="username"
-                className="rounded-lg ml-1"
+                className="rounded-lg ml-2"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -70,7 +86,7 @@ function RegistrationPage() {
                 Email
               </label>
               <input
-                className="rounded-lg ml-1"
+                className="rounded-lg ml-2"
                 type="email"
                 id="email"
                 value={email}
@@ -82,7 +98,7 @@ function RegistrationPage() {
                 Password
               </label>
               <input
-                className="rounded-lg ml-1"
+                className="rounded-lg ml-2"
                 type="password"
                 id="password"
                 value={password}

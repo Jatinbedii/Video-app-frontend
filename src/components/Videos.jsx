@@ -3,10 +3,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Video from "./Video";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { data } from "./temp";
 
 function Videos() {
-  const temp = data;
   const [videos, setvideos] = useState();
 
   async function getVideos() {

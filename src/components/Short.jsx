@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { Toaster } from "@/components/ui/toaster";
 import { BiSolidSend } from "react-icons/bi";
 import React, { useEffect, useRef, useState } from "react";
@@ -140,17 +141,19 @@ function Short(props) {
           {props.users.map((eachuser) => {
             if (eachuser._id == props.short.createdBy) {
               return (
-                <div className="flex flex-row gap-2" key={eachuser._id}>
-                  <img
-                    src={eachuser.profile}
-                    height={30}
-                    width={30}
-                    className="rounded-full"
-                  />
-                  <div className="text-gray-300 font-medium">
-                    {eachuser.username}
+                <Link href={`/user/${eachuser._id}`}>
+                  <div className="flex flex-row gap-2" key={eachuser._id}>
+                    <img
+                      src={eachuser.profile}
+                      height={30}
+                      width={30}
+                      className="rounded-full"
+                    />
+                    <div className="text-gray-300 font-medium">
+                      {eachuser.username}
+                    </div>
                   </div>
-                </div>
+                </Link>
               );
             }
           })}

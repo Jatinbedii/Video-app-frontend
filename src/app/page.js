@@ -1,3 +1,4 @@
+import Search from "@/components/Search";
 import Videos from "@/components/Videos";
 import Shorts from "@/components/shorts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,6 +16,7 @@ export default function Home() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="videos" className="pt-10">
+          <Search />
           <Videos />
         </TabsContent>
         <TabsContent value="reels" className="pt-10">
