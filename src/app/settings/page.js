@@ -22,7 +22,7 @@ function page() {
     }
 
     const res = await axios.patch(
-      "http://localhost:3001/api/changeimage",
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/changeimage`,
       {
         url: imageuploaded.data.secure_url,
       },

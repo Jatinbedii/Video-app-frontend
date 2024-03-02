@@ -38,7 +38,7 @@ function page({ params }) {
     }
 
     const res = await axios.post(
-      "http://localhost:3001/api/like",
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/like`,
       {
         video: params.id,
       },
@@ -80,7 +80,7 @@ function page({ params }) {
       });
     }
     const res = await axios.post(
-      "http://localhost:3001/api/comment",
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/comment`,
       { comment: mycomment, video: params.id },
 
       {
@@ -107,9 +107,12 @@ function page({ params }) {
   }
 
   async function getvideo() {
-    const res = await axios.post("http://localhost:3001/api/video", {
-      id: params.id,
-    });
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/video`,
+      {
+        id: params.id,
+      }
+    );
     if (!res.data.error) {
       if (user) {
         if (res.data.likes.indexOf(user._id) !== -1) {
@@ -120,7 +123,7 @@ function page({ params }) {
       setvideo(res.data);
     }
 
-    axios("http://localhost:3001/api/users")
+    axios(`${process.env.NEXT_PUBLIC_BACKEND}/api/users`)
       .then((res) => setusersData(res.data))
       .catch((err) => console.log(err));
   }

@@ -13,7 +13,7 @@ function RegistrationPage() {
   const [error, setError] = useState("");
   useEffect(() => {
     if (localStorage.getItem("jwt")) {
-      axios("http://localhost:3001/api/user", {
+      axios(`${process.env.NEXT_PUBLIC_BACKEND}/api/user`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
@@ -37,7 +37,7 @@ function RegistrationPage() {
     }
 
     axios
-      .post("http://localhost:3001/api/register", {
+      .post(`${process.env.NEXT_PUBLIC_BACKEND}/api/register`, {
         username,
         email,
         password,

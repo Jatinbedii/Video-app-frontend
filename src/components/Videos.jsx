@@ -9,7 +9,7 @@ function Videos() {
 
   async function getVideos() {
     try {
-      const res = await axios("http://localhost:3001/api/videos");
+      const res = await axios(`${process.env.NEXT_PUBLIC_BACKEND}/api/videos`);
       setvideos(res.data);
     } catch (error) {
       console.log(error);

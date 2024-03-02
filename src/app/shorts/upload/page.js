@@ -39,7 +39,7 @@ function page() {
     }
 
     const res = await axios.post(
-      "http://localhost:3001/api/shorts/upload",
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/shorts/upload`,
       {
         title: title,
         description: description,

@@ -8,7 +8,7 @@ export default function page({ params }) {
   const [users, setusers] = useState(null);
   async function getVideos() {
     try {
-      const res = await axios("http://localhost:3001/api/videos");
+      const res = await axios(`${process.env.NEXT_PUBLIC_BACKEND}/api/videos`);
       setallvideos(res.data);
       console.log(res.data);
     } catch (error) {
@@ -18,7 +18,7 @@ export default function page({ params }) {
 
   async function getUsers() {
     try {
-      const res = await axios("http://localhost:3001/api/users");
+      const res = await axios(`${process.env.NEXT_PUBLIC_BACKEND}/api/users`);
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i]._id == params.id) {
           setusers(res.data[i]);

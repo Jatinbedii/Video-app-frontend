@@ -22,9 +22,12 @@ function Short(props) {
   const [playing, setplaying] = useState(false);
   async function increaseView() {
     try {
-      await axios.post("http://localhost:3001/api/shorts/increaseview", {
-        short: props.short._id,
-      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND}/api/shorts/increaseview`,
+        {
+          short: props.short._id,
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -51,7 +54,7 @@ function Short(props) {
       });
     }
     const res = await axios.post(
-      "http://localhost:3001/api/shorts/comment",
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/shorts/comment`,
       {
         comment: comment,
         short: props.short._id,
@@ -86,7 +89,7 @@ function Short(props) {
     }
 
     const res = await axios.post(
-      "http://localhost:3001/api/shorts/like",
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/shorts/like`,
       {
         short: props.short._id,
       },

@@ -32,7 +32,7 @@ function Navbar() {
     }
 
     axios
-      .post("http://localhost:3001/api/login", {
+      .post(`${process.env.NEXT_PUBLIC_BACKEND}/api/login`, {
         username,
         password,
       })
@@ -53,7 +53,7 @@ function Navbar() {
     setuser(null);
   }
   async function getuserinfo() {
-    const res = await axios("http://localhost:3001/api/user", {
+    const res = await axios(`${process.env.NEXT_PUBLIC_BACKEND}/api/user`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },

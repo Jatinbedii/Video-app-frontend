@@ -8,9 +8,9 @@ function Shorts() {
   const [shorts, setShorts] = useState();
   const [usersdata, setUsersData] = useState();
   async function getshorts() {
-    const res = await axios("http://localhost:3001/api/shorts");
+    const res = await axios(`${process.env.NEXT_PUBLIC_BACKEND}/api/shorts`);
     setShorts(res.data);
-    const data = await axios("http://localhost:3001/api/users");
+    const data = await axios(`${process.env.NEXT_PUBLIC_BACKEND}/api/users`);
     setUsersData(data.data);
   }
   useEffect(() => {
