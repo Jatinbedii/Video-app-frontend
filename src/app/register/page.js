@@ -44,7 +44,7 @@ function RegistrationPage() {
       })
       .then((res) => {
         if (res.status == 201) {
-          router.push("/login");
+          router.push("/");
         } else {
           console.log(setError(res.data.error));
         }

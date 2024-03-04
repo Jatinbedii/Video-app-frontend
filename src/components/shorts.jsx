@@ -3,6 +3,7 @@ import axios from "axios";
 
 import React, { useEffect, useState } from "react";
 import Short from "./Short";
+import { ClipLoader } from "react-spinners";
 
 function Shorts() {
   const [shorts, setShorts] = useState();
@@ -26,7 +27,16 @@ function Shorts() {
           return <Short short={data} users={usersdata} />;
         })
       ) : (
-        <div>Loading</div>
+        <div className="w-full text-center">
+          <ClipLoader
+            color={"#ffffff"}
+            loading={true}
+            className="mt-10"
+            size={50}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
       )}
     </div>
   );

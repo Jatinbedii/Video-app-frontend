@@ -73,7 +73,7 @@ function Navbar() {
     <div className="w-full bg-black">
       <div className="flex justify-between pr-1 pl-1 md:pr-0 md:pl-0 md:justify-around pt-2">
         <div className="text-[#99cc33] mt-1 font-bold text-3xl flex flex-row gap-1 hover:text-[#7ca529]">
-          <Link href={"/"}>MP4</Link>
+          <a href={"/"}>MP4</a>
           <Image
             src="/logo.png"
             width={30}
@@ -111,9 +111,9 @@ function Navbar() {
                     </div>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Button className="bg-red-600 w-fit mx-auto">
-                      <Link href={`/golive`}>Go Live !</Link>
-                    </Button>
+                    <a href={`/golive`} className="w-fit mx-auto">
+                      <Button className="bg-red-600">Go Live !</Button>
+                    </a>
                     <Button className="bg-[#7ca529] w-fit mx-auto">
                       <Link href={`/user/${user._id}`}>
                         <FaUserEdit />
