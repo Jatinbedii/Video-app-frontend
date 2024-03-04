@@ -6,6 +6,7 @@ function page({ params }) {
   const canvasref = useRef(null);
   const [isonline, setisOnline] = useState(false);
   const [socket, setsocket] = useState();
+  const [userdetails, setuserdetails] = useState();
 
   function drawframe(frame) {
     const canvas = canvasref.current;
@@ -25,6 +26,7 @@ function page({ params }) {
     );
     for (let i = 0; i < data.length; i++) {
       if (data[i]._id == params.id) {
+        setuserdetails(data[i]);
         if (data[i].isLive == true) {
           setisOnline(true);
         }
@@ -73,7 +75,35 @@ function page({ params }) {
         )}
       </div>
 
-      <div>{}</div>
+      {userdetails ? (
+        <div>
+          <div className="w-full pl-2 mt-5 text-white text-2xl">
+            {userdetails.username} 's Live Stream
+          </div>
+          <div className="bg-[#99cc33] w-fit ml-2 text-green-900 text-sm p-1 rounded-3xl">
+            Broadcasting Live
+          </div>
+
+          <a
+            className="flex flex-row gap-2 pl-1 mt-3 "
+            href={`/user/${userdetails._id}`}
+          >
+            <img
+              className="rounded-full"
+              src={userdetails.profile}
+              height={"40px"}
+              width={"40px"}
+            />
+            <div className="text-white text-base font-medium pt-2 hover:text-[#99cc33]">
+              {" "}
+              {userdetails.username}
+            </div>{" "}
+            <div className="pt-2.5 text-gray-400 text-sm">(creator)</div>
+          </a>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }

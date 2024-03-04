@@ -53,7 +53,7 @@ function page() {
       });
       socket.on("joinedroom", () => {
         setisLive(true);
-        intervalid = setInterval(sendFrame, 300);
+        intervalid = setInterval(sendFrame, 100);
       });
     }
     return () => {
