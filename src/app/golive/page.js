@@ -5,8 +5,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { ScrollArea } from "@/components/ui/scroll-area";
 function page() {
   const [socket, setsocket] = useState();
+  const [chat, setchat] = useState([]);
   const [islive, setisLive] = useState(false);
   const [userdetails, setuserdetails] = useState();
   const videoRef = useRef(null);
@@ -55,6 +57,9 @@ function page() {
         setisLive(true);
         intervalid = setInterval(sendFrame, 100);
       });
+      socket.on("MESSAGE", ({ user, message }) => {
+        setchat((prevChat) => [{ user, message }, ...prevChat]);
+      });
     }
     return () => {
       if (intervalid) {
@@ -89,12 +94,20 @@ function page() {
   return (
     <div>
       <div className="w-full mt-7 flex justify-center">
-        <button
-          className="text-center bg-red-500 p-3 w-fit h-fit rounded-3xl text-white hover:bg-red-700"
-          onClick={startlive}
-        >
-          Start Live Stream
-        </button>
+        {islive ? (
+          <a href="/">
+            <button className="text-center bg-[#99cc33] p-3 w-fit h-fit rounded-3xl text-green-900 hover:bg-green-700">
+              Finish Live Stream
+            </button>
+          </a>
+        ) : (
+          <button
+            className="text-center bg-red-500 p-3 w-fit h-fit rounded-3xl text-white hover:bg-red-700"
+            onClick={startlive}
+          >
+            Start Live Stream
+          </button>
+        )}
       </div>
 
       {videoRef ? (
@@ -112,9 +125,11 @@ function page() {
               Status
             </div>
             {islive ? (
-              <div className="w-full flex justify-center ">
-                <span className="pr-2 text-white ">You are Live</span>
-                <div className="h-[20px] w-[20px] bg-green-500 rounded-full"></div>
+              <div className="w-full">
+                <div className="w-full flex justify-center ">
+                  <span className="pr-2 text-white ">You are Live</span>
+                  <div className="h-[20px] w-[20px] bg-green-500 rounded-full"></div>
+                </div>
               </div>
             ) : (
               <div className="w-full flex justify-center">
@@ -124,6 +139,39 @@ function page() {
             )}
           </div>
           <canvas ref={canvasRef} style={{ display: "none" }} />
+          <div className=" text-xl text-center w-full mt-2 mb-2 font-medium text-gray-300 ">
+            Live Chat
+          </div>
+          <div>
+            {chat ? (
+              <div className="w-full">
+                <ScrollArea className="h-[400px] max-w-[400px] rounded-md border overflow-auto mx-auto">
+                  {chat ? (
+                    <div>
+                      {chat.map((singlechat) => {
+                        return (
+                          <div>
+                            <div className="flex row gap-1 pl-1 pt-2 bg-[#1f1f1f] m-2 p-1 rounded-md max-w-[400px] mx-auto">
+                              <div className="text-[#99cc33] text-base font-semibold pt-2">
+                                {singlechat.user}
+                              </div>
+                              <div className="pt-2.5 text-gray-300 text-sm">
+                                {singlechat.message}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                </ScrollArea>
+              </div>
+            ) : (
+              <div></div>
+            )}
+          </div>
         </div>
       ) : (
         <div></div>

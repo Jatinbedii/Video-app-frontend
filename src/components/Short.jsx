@@ -145,14 +145,17 @@ function Short(props) {
             if (eachuser._id == props.short.createdBy) {
               return (
                 <Link href={`/user/${eachuser._id}`}>
-                  <div className="flex flex-row gap-2" key={eachuser._id}>
+                  <div
+                    className="flex flex-row gap-2 backdrop-blur-md w-fit pr-2   rounded-3xl"
+                    key={eachuser._id}
+                  >
                     <img
                       src={eachuser.profile}
                       height={30}
                       width={30}
                       className="rounded-full"
                     />
-                    <div className="text-gray-300 font-medium">
+                    <div className="text-white mt-[3px] font-medium">
                       {eachuser.username}
                     </div>
                   </div>

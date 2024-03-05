@@ -5,7 +5,7 @@ import React from "react";
 function Video({ data }) {
   return (
     <Link href={`/video/${data._id}`}>
-      <div className="max-w-[350px] h-[250px] text-white bg-[#1f1f1f] rounded-lg m-1">
+      <div className="max-w-[350px] h-[250px] text-white bg-[#1f1f1f] rounded-lg  m-1">
         <div className="w-full">
           {data.thumbnail ? (
             <div className="m-2">
@@ -31,11 +31,17 @@ function Video({ data }) {
         <div className="pl-1">{data.title}</div>
         <div className="flex justify-between pr-1 pl-1">
           <div className="flex flex-row gap-1">
-            <FaClock />
+            <span className="text-[#99cc33]">
+              {" "}
+              <FaClock />
+            </span>
             <div>{parseInt(data.duration)}s</div>
           </div>
           <div className="flex flex-row gap-1">
-            {data.views} <FaEye />
+            {data.views}{" "}
+            <span className="text-[#99cc33]">
+              <FaEye />
+            </span>
           </div>
         </div>
       </div>

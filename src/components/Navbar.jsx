@@ -16,6 +16,12 @@ import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { FaUserEdit } from "react-icons/fa";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 function Navbar() {
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -112,20 +118,49 @@ function Navbar() {
                   </div>
                   <div className="flex flex-col gap-2">
                     <a href={`/golive`} className="w-fit mx-auto">
-                      <Button className="bg-red-600">Go Live !</Button>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Button className="bg-red-600">Go Live !</Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Start live streaming</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </a>
-                    <Button className="bg-[#7ca529] w-fit mx-auto">
-                      <Link href={`/user/${user._id}`}>
-                        <FaUserEdit />
-                      </Link>
-                    </Button>
 
-                    <Button
-                      onClick={LogoutHandler}
-                      className="bg-red-800 text-white w-fit mx-auto"
-                    >
-                      <MdLogout />
-                    </Button>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Link href={`/user/${user._id}`}>
+                            {" "}
+                            <Button className="bg-[#7ca529] w-fit mx-auto">
+                              <FaUserEdit />
+                            </Button>
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Profile : Edit data or upload videos</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Button
+                            onClick={LogoutHandler}
+                            className="bg-red-800 text-white w-fit mx-auto"
+                          >
+                            <MdLogout />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Log out</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </SheetContent>
               </Sheet>
