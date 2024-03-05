@@ -93,10 +93,10 @@ function page() {
   }
   return (
     <div>
-      <div className="w-full mt-7 flex justify-center">
+      <div className="w-full mt-2 flex justify-center bg-[#222222]">
         {islive ? (
           <a href="/">
-            <button className="text-center bg-[#99cc33] p-3 w-fit h-fit rounded-3xl text-green-900 hover:bg-green-700">
+            <button className="text-center bg-[#99cc33] p-3 w-fit h-fit rounded-3xl text-green-900 hover:bg-green-700 ">
               Finish Live Stream
             </button>
           </a>
@@ -109,6 +109,7 @@ function page() {
           </button>
         )}
       </div>
+      <div className="w-full h-[20px] bg-[#222222] rounded-b-3xl"></div>
 
       {videoRef ? (
         <div>
@@ -121,57 +122,65 @@ function page() {
             />
           </div>
           <div>
-            <div className="w-full text-center text-gray-400 pt-2 pb-1">
-              Status
-            </div>
-            {islive ? (
-              <div className="w-full">
-                <div className="w-full flex justify-center ">
-                  <span className="pr-2 text-white ">You are Live</span>
-                  <div className="h-[20px] w-[20px] bg-green-500 rounded-full"></div>
+            <div className="w-full flex justify-center mt-1 mb-1 ">
+              <div className="bg-[#111111] w-fit pr-4 pl-4 rounded-3xl">
+                <div className="w-full text-center text-gray-400 pt-1 pb-1">
+                  Status
                 </div>
+                {islive ? (
+                  <div className="w-full">
+                    <div className="w-full flex justify-center ">
+                      <span className="pr-2 text-white ">You are Live</span>
+                      <div className="h-[20px] w-[20px] bg-green-500 rounded-full"></div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full flex justify-center">
+                    <span className=" text-white  pr-2">Not Broadcasting</span>
+                    <div className="h-[20px] w-[20px] bg-red-500 rounded-full"></div>
+                  </div>
+                )}
               </div>
-            ) : (
-              <div className="w-full flex justify-center">
-                <span className=" text-white  pr-2">Not Broadcasting</span>
-                <div className="h-[20px] w-[20px] bg-red-500 rounded-full"></div>
-              </div>
-            )}
+            </div>
           </div>
           <canvas ref={canvasRef} style={{ display: "none" }} />
-          <div className=" text-xl text-center w-full mt-2 mb-2 font-medium text-gray-300 ">
-            Live Chat
-          </div>
-          <div>
-            {chat ? (
-              <div className="w-full">
-                <ScrollArea className="h-[400px] max-w-[400px] rounded-md border overflow-auto mx-auto">
-                  {chat ? (
-                    <div>
-                      {chat.map((singlechat) => {
-                        return (
-                          <div>
-                            <div className="flex row gap-1 pl-1 pt-2 bg-[#1f1f1f] m-2 p-1 rounded-md max-w-[400px] mx-auto">
-                              <div className="text-[#99cc33] text-base font-semibold pt-2">
-                                {singlechat.user}
-                              </div>
-                              <div className="pt-2.5 text-gray-300 text-sm">
-                                {singlechat.message}
+          <div className="bg-[#222222] h-[25px] rounded-t-3xl"></div>
+          <div className="bg-[#222222]">
+            <div className=" text-xl text-center w-full pt-2 mb-2 font-medium text-gray-300 ">
+              Live Chat
+            </div>
+            <div>
+              {chat ? (
+                <div className="w-full">
+                  <ScrollArea className="h-[400px] max-w-[400px] rounded-md border bg-[#1f1f1f1] overflow-auto mx-auto">
+                    {chat ? (
+                      <div>
+                        {chat.map((singlechat) => {
+                          return (
+                            <div>
+                              <div className="flex row gap-1 pl-1 pt-2 bg-[#0f0f0f] m-2 p-1 rounded-md max-w-[400px] mx-auto">
+                                <div className="text-[#99cc33] text-base font-semibold pt-2">
+                                  {singlechat.user}
+                                </div>
+                                <div className="pt-2.5 text-gray-300 text-sm">
+                                  {singlechat.message}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div></div>
-                  )}
-                </ScrollArea>
-              </div>
-            ) : (
-              <div></div>
-            )}
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
+                  </ScrollArea>
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </div>
           </div>
+          <div className="bg-[#222222] h-[25px] rounded-b-3xl"></div>
         </div>
       ) : (
         <div></div>

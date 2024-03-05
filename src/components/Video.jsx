@@ -18,13 +18,11 @@ function Video({ data }) {
             </div>
           ) : (
             <div>
-              {/*
               <div className="pt-2">
-              <video height={"100"} width={"300"} className="mx-auto">
-                <source src={data.url} type="video/mp4"></source>
-              </video>{" "}
-            </div>
-          */}
+                <video height={"100"} width={"300"} className="mx-auto">
+                  <source src={data.url} type="video/mp4"></source>
+                </video>{" "}
+              </div>
             </div>
           )}
         </div>
