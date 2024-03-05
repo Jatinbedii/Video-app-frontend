@@ -59,22 +59,58 @@ function page() {
   }
   return (
     <div>
-      <input
-        type="text"
-        placeholder="title"
-        value={title}
-        onChange={(e) => settitle(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="description"
-        value={description}
-        onChange={(e) => setdescription(e.target.value)}
-      />
+      <div className="text-3xl text-[#99cc33] w-full text-center font-semibold mt-7">
+        Upload Short
+      </div>
+      <div className="w-full flex justify-center mt-6">
+        <div className="bg-[#99cc33] p-3 rounded-2xl">
+          <div className="flex flex-col gap-3">
+            <input
+              type="text"
+              className="w-full p-1 rounded-3xl border-2 border-[#99cc33]"
+              placeholder="title"
+              value={title}
+              onChange={(e) => settitle(e.target.value)}
+            />
+            <input
+              type="text"
+              className="w-full p-1 rounded-3xl border-2 border-[#99cc33]"
+              placeholder="description"
+              value={description}
+              onChange={(e) => setdescription(e.target.value)}
+            />
 
-      <input type="file" accept="video/*" onChange={VideoSetHanlder} />
-      {error ? <div>{error}</div> : <div></div>}
-      <button onClick={uploadhandler}>Upload</button>
+            <div className="bg-black w-full  pb-1 pt-1 rounded-lg">
+              <div className=" text-white pl-3">Video</div>
+              <input
+                type="file"
+                accept="video/*"
+                onChange={VideoSetHanlder}
+                className="text-white w-full"
+              />
+            </div>
+
+            <div className="w-full flex justify-center">
+              <button
+                className="w-fit pr-3 pl-3 pt-1 pb-1 bg-black text-white rounded-3xl mt-3"
+                onClick={uploadhandler}
+              >
+                Upload
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {error ? (
+        <div>
+          <div className="w-full flex justify-center text-white rounded-3xl mt-3">
+            <div className="bg-red-600 w-fit mt-3 p-2 rounded-3xl">{error}</div>
+          </div>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }

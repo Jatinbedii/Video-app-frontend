@@ -118,16 +118,7 @@ function Navbar() {
                   </div>
                   <div className="flex flex-col gap-2">
                     <a href={`/golive`} className="w-fit mx-auto">
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <Button className="bg-red-600">Go Live !</Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Start live streaming</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                      <Button className="bg-red-600">Go Live !</Button>
                     </a>
 
                     <TooltipProvider>

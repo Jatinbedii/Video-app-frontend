@@ -168,12 +168,12 @@ function Short(props) {
           triggerOnce={false}
           onChange={(inView, entry) => {
             if (inView) {
-              // videoref.current.play();
-              // setplaying(true);
-              // increaseView();
+              videoref.current.play();
+              setplaying(true);
+              increaseView();
             } else {
-              //   videoref.current.pause();
-              //  setplaying(false);
+              videoref.current.pause();
+              setplaying(false);
             }
           }}
         >

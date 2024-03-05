@@ -1,9 +1,10 @@
 "use client";
+import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import changedate from "@/utils/ConvertDate";
-
+import { IoIosAdd } from "react-icons/io";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Video from "@/components/Video";
 import { ClipLoader } from "react-spinners";
@@ -11,6 +12,7 @@ import { useUserContext } from "@/app/context/UserContext";
 import { Button } from "@/components/ui/button";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { FaUserEdit } from "react-icons/fa";
 
 export default function page({ params }) {
   const { user } = useUserContext();
@@ -77,8 +79,8 @@ export default function page({ params }) {
                   <Image
                     className="rounded-full"
                     src={users.profile}
-                    height={80}
-                    width={80}
+                    height={60}
+                    width={60}
                     alt="image"
                   />
                 </div>
@@ -87,8 +89,8 @@ export default function page({ params }) {
                   <span className="text-gray-400 text-base">{users.email}</span>
                 </div>
               </div>
-              <div className="bg-[#222222] w-full h-[15px] mt-1 rounded-t-2xl"></div>
-              <div className="pl-2 font-medium pt-2 bg-[#222222]">
+              <div className="bg-[#222222] w-full h-[10px] mt-1 rounded-t-3xl"></div>
+              <div className="pl-2 font-medium  bg-[#222222]">
                 <div className="text-white text-xl">About</div>
                 <div className="text-sm text-gray-300">
                   Created on{" "}
@@ -96,18 +98,27 @@ export default function page({ params }) {
                     {changedate(users.createdAt)}
                   </span>
                 </div>
-                <div className="text-sm text-gray-300">
-                  Videos Posted <span className="text-gray-400 "></span>
-                </div>
-                <div className="text-sm text-gray-300">
-                  Shorts Posted <span className="text-gray-400 "></span>
-                </div>
+
                 {user ? (
                   <div className="w-full flex justify-center">
-                    <div className="flex justify-around gap-3">
-                      <Button>Edit Profile</Button>
-                      <Button>Video</Button>
-                      <Button>Short</Button>
+                    <div className="flex justify-around gap-1">
+                      <span className="bg-white clear-start flex flex-row gap-1 pb-1 pt-1 pl-1 rounded-md">
+                        <Link href="/upload">
+                          <Button className="bg-red-600 text-white">
+                            Video
+                          </Button>
+                        </Link>
+                        <Link href="/shorts/upload">
+                          {" "}
+                          <Button className="bg-red-600 text-white">
+                            Short
+                          </Button>
+                        </Link>
+                        <span className="text-red-600 text-4xl">
+                          {" "}
+                          <IoIosAdd />
+                        </span>
+                      </span>
                     </div>
                   </div>
                 ) : (
@@ -154,15 +165,32 @@ export default function page({ params }) {
                   </div>
                 </TabsContent>
                 <TabsContent value="reels" className="pt-10">
-                  {shorts ? (
-                    <div className="  grid gap-3 md:grid-cols-2 lg:grid-cols-3 w-fit mx-auto lg:gap-10">
-                      {shorts.map((short) => {
-                        return <div>{short.title}</div>;
-                      })}
-                    </div>
-                  ) : (
-                    <div></div>
-                  )}
+                  <div className="bg-[#333333]">
+                    {shorts ? (
+                      <ScrollArea className="w-full whitespace-nowrap rounded-md border">
+                        <div className="flex w-max space-x-4 p-4">
+                          {shorts.map((short) => {
+                            return (
+                              <div className="w-[200px]  flex flex-col bg-[#111111] p-1 rounded-lg">
+                                <a href={short.url}>
+                                  <div className="w-full flex justify-center">
+                                    {" "}
+                                    <video src={short.url} />
+                                  </div>
+                                  <div className="text-white pl-1 pt-1">
+                                    {short.title}
+                                  </div>
+                                </a>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <ScrollBar orientation="horizontal" />
+                      </ScrollArea>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
