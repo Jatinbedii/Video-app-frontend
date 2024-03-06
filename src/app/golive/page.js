@@ -26,7 +26,7 @@ function page() {
 
     canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    const CompressedSize = canvas.toDataURL("image/jpeg", 0.5);
+    const CompressedSize = canvas.toDataURL("image/jpeg", 0.3);
 
     socket.emit("videoframe", { frame: CompressedSize, room: userdetails._id });
   }
@@ -55,7 +55,7 @@ function page() {
       });
       socket.on("joinedroom", () => {
         setisLive(true);
-        intervalid = setInterval(sendFrame, 100);
+        intervalid = setInterval(sendFrame, 300);
       });
       socket.on("MESSAGE", ({ user, message }) => {
         setchat((prevChat) => [{ user, message }, ...prevChat]);
