@@ -18,12 +18,14 @@ function page({ params }) {
   const [userdetails, setuserdetails] = useState();
   function sendMessageHandler() {
     if (!isonline) {
+      setmychat("");
       return toast({
         title: "Streamer is Offline",
         description: "You cannot send chat when streamer is offline",
       });
     }
     if (!user) {
+      setmychat("");
       return toast({
         title: "Login Required",
         description: "Login Required to comment here",
@@ -38,6 +40,7 @@ function page({ params }) {
       message: mychat,
       room: params.id,
     });
+    setmychat("");
   }
   function drawframe(frame) {
     const canvas = canvasref.current;
